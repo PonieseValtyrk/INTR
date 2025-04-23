@@ -376,7 +376,11 @@ function draw() {
   drawText({ fill: fill, rect: rect });
 }
 
-function saveFont() {
+function saveFont(familyName, styleName) { // Added familyName parameter
+
+  // Ensure familyName is provided, fallback if necessary (though handled by caller)
+  const finalFamilyName = familyName || `INTR-PIXEL-${fontName}-Default`;
+  const finalStyleName = styleName || `${xDotSize.toFixed(1)}_${yDotSize.toFixed(1)}_${xDotUnusedSize.toFixed(1)}_${yDotUnusedSize.toFixed(1)}_${xInterval.toFixed(1)}_${yInterval.toFixed(1)}_${boolean}_${position}`;
 
   let xDist = xInterval * 20;
   let yDist = yInterval * 20;
@@ -431,9 +435,9 @@ function saveFont() {
 
   //创建Opentype字体
   const font = new opentype.Font({
-    familyName: `INTR_PIXEL_${fontName}`,
-    fullName: `INTR_PIXEL_${fontName}`,
-    styleName: `${xDotSize.toFixed(1)}_${yDotSize.toFixed(1)}_${xDotUnusedSize.toFixed(1)}_${yDotUnusedSize.toFixed(1)}_${xInterval.toFixed(1)}_${yInterval.toFixed(1)}_${boolean}_${position}`,
+    familyName: finalFamilyName, // Use the provided family name
+    fullName: finalFamilyName,   // Use the provided family name
+    styleName: finalStyleName,
     unitsPerEm: 1000,
     ascender: 800,
     descender: -200,
@@ -456,9 +460,33 @@ function saveFont() {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
-  link.download = `INTR_PIXEL/${fontName}/${xDotSize.toFixed(1)}_${yDotSize.toFixed(1)}_${xDotUnusedSize.toFixed(1)}_${yDotUnusedSize.toFixed(1)}_${xInterval.toFixed(1)}_${yInterval.toFixed(1)}_${boolean}_${position}.otf`;
+  // Use finalFamilyName and sanitize it for the filename
+  const safeFamilyName = finalFamilyName.replace(/[^a-z0-9_-]/gi, '_');
+  const safeStyleName = finalStyleName.replace(/[^a-z0-9_-]/gi, '_'); // Replace invalid chars
+  link.download = `${safeFamilyName}_${safeStyleName}.otf`;
   link.click();
   URL.revokeObjectURL(url);
+  return true; // Indicate success
+}
+
+// --- Modal Elements ---
+const saveFontModal = document.getElementById('saveFontModal');
+const fontFamilyNameInput = document.getElementById('fontFamilyName');
+const fontStyleNameInput = document.getElementById('fontStyleName');
+const modalConfirmButton = document.getElementById('modal-confirm');
+const modalCancelButton = document.getElementById('modal-cancel');
+
+// --- Function to open the modal ---
+function openSaveModal() {
+  // Optionally reset the input field value or set a default
+  fontFamilyNameInput.value = `INTR-PIXEL-${fontName}`;
+  fontStyleNameInput.value = `${xDotSize.toFixed(1)}_${yDotSize.toFixed(1)}_${xDotUnusedSize.toFixed(1)}_${yDotUnusedSize.toFixed(1)}_${xInterval.toFixed(1)}_${yInterval.toFixed(1)}_${boolean}_${position}`;
+  saveFontModal.style.display = 'block';
+}
+
+// --- Function to close the modal ---
+function closeSaveModal() {
+  saveFontModal.style.display = 'none';
 }
 
 // 事件监听器设置
@@ -474,7 +502,34 @@ window.addEventListener('load', () => {
     });
   });
 
-  document.getElementById('saveFont').addEventListener('click', saveFont);
+  // --- MODIFIED: Save Font Button Listener ---
+  // document.getElementById('saveFont').addEventListener('click', saveFont); // Original line
+  document.getElementById('saveFont').addEventListener('click', openSaveModal); // New: Opens the modal
+
+  // --- ADDED: Modal Button Listeners ---
+  modalCancelButton.addEventListener('click', closeSaveModal);
+
+  modalConfirmButton.addEventListener('click', () => {
+    const familyName = fontFamilyNameInput.value.trim();
+    const styleName = fontStyleNameInput.value.trim();
+    if (familyName && styleName) {
+      try {
+        // Call the modified saveFont function with the name
+        const success = saveFont(familyName, styleName); // Pass the name
+        if (success) {
+           console.log(`Font saved with family name: ${familyName}`);
+           console.log(`Font saved with style name: ${styleName}`);
+        }
+      } catch (error) {
+        console.error("Error saving font:", error);
+        alert("Error saving font. Check console for details."); // Optional user feedback
+      } finally {
+         closeSaveModal(); // Close modal regardless of success or error
+      }
+    } else {
+      alert("Please enter valid name."); // Basic validation
+    }
+  });
 
   // 添加 fontData textarea 的事件监听器
   fontDataTextarea.addEventListener('input', () => {

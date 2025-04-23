@@ -13,6 +13,11 @@ function randomizeParameters() {
     "bottom-right",
   ]
 
+  const boolean = [
+    "unite",
+    "subtract"
+  ]
+
   function randomInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
@@ -28,8 +33,9 @@ function randomizeParameters() {
   document.getElementById('yDotSize').value = randomInteger(-5, 5);
   document.getElementById('xDotUnusedSize').value = randomInteger(-5, 5);
   document.getElementById('yDotUnusedSize').value = randomInteger(-5, 5);
-  document.getElementById('Spacing').value = randomInteger(0, 5);
+  document.getElementById('Spacing').value = randomInteger(0, 3);
   document.getElementById('position').value = randomColorFromList(positions);
+  document.getElementById('boolean').value = randomColorFromList(boolean);
 }
 
 let randomButton = document.getElementById('random');

@@ -40,7 +40,7 @@ function randomizeParameters() {
   document.getElementById('yDotSize').value = randomInteger(-5, 5);
   document.getElementById('xDotUnusedSize').value = randomInteger(-5, 5);
   document.getElementById('yDotUnusedSize').value = randomInteger(-5, 5);
-  document.getElementById('Spacing').value = randomInteger(0, 5);
+  document.getElementById('Spacing').value = randomInteger(0, 3);
   document.getElementById('position').value = randomColorFromList(positions);
 }
 

@@ -380,7 +380,44 @@ function draw() {
   drawText({ image: image }, 'bitmap');
 }
 
-function saveFont() {
+function generate32BitIdentifier(input1, input2, input3, input4, input5, input6) {
+  const combinedString = [input1, input2, input3, input4, input5, input6]
+    .map(input => {
+      try {
+        if (input === undefined) return "undefined";
+        if (input === null) return "null";
+        return JSON.stringify(input) || String(input);
+      } catch (e) {
+        return String(input);
+      }
+    })
+    .join('|');
+
+  let hash = 0;
+  for (let i = 0; i < combinedString.length; i++) {
+    const char = combinedString.charCodeAt(i);
+    // 经典的 djb2 哈希算法步骤: hash = hash * 33 + charCode
+    // 这里使用位运算版本: hash = (hash << 5) + hash + charCode;
+    // 或者另一种常见变体: hash = (hash << 5) - hash + charCode;
+    hash = (hash << 5) - hash + char;
+    hash |= 0; // 通过位或 0 操作，强制转换为 32 位有符号整数
+  }
+
+  const hexIdentifier = (hash >>> 0).toString(16).padStart(8, '0');
+  return hexIdentifier;
+}
+
+function saveFont(familyName, styleName) {
+
+  const finalFamilyName = familyName || `INTR-PIXEL-${fontName}-Default`;
+  const finalStyleName = styleName || generate32BitIdentifier(
+    document.getElementById('svgA').value,
+    document.getElementById('svgB').value,
+    document.getElementById('svgC').value,
+    document.getElementById('svgD').value,
+    document.getElementById('svgE').value,
+    document.getElementById('svgF').value
+  );
 
   applyParameters();
 
@@ -426,11 +463,10 @@ function saveFont() {
       glyphs.push(Glyph)
     }
   }
-
   const font = new opentype.Font({
-    familyName: `INTR_PATTERN_${fontName}`,
-    fullName: `INTR_PATTERN_${fontName}`,
-    styleName: 'Regular',
+    familyName: finalFamilyName,
+    fullName: finalFamilyName,
+    styleName: finalStyleName,
     unitsPerEm: 1000,
     ascender: yInterval * (letters[' '].length + 1) * 20,
     descender: -200,
@@ -442,15 +478,73 @@ function saveFont() {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
-  link.download = 'CustomFont.otf';
+  const safeFamilyName = finalFamilyName.replace(/[^a-z0-9_-]/gi, '_');
+  const safeStyleName = finalStyleName.replace(/[^a-z0-9_-]/gi, '_'); // Replace invalid chars
+  link.download = `${safeFamilyName}_${safeStyleName}.otf`;
   link.click();
   URL.revokeObjectURL(url);
+  return true;
 }
 
-document.getElementById('saveFont').addEventListener('click', saveFont);
+// --- Modal Elements ---
+const saveFontModal = document.getElementById('saveFontModal');
+const fontFamilyNameInput = document.getElementById('fontFamilyName');
+const fontStyleNameInput = document.getElementById('fontStyleName');
+const modalConfirmButton = document.getElementById('modal-confirm');
+const modalCancelButton = document.getElementById('modal-cancel');
+
+// --- Function to open the modal ---
+function openSaveModal() {
+  // Optionally reset the input field value or set a default
+  fontFamilyNameInput.value = `INTR-PIXEL-${fontName}`;
+  fontStyleNameInput.value = generate32BitIdentifier(
+    document.getElementById('svgA').value,
+    document.getElementById('svgB').value,
+    document.getElementById('svgC').value,
+    document.getElementById('svgD').value,
+    document.getElementById('svgE').value,
+    document.getElementById('svgF').value
+  );
+  saveFontModal.style.display = 'block';
+}
+
+// --- Function to close the modal ---
+function closeSaveModal() {
+  saveFontModal.style.display = 'none';
+}
 
 // 事件监听器设置
 window.addEventListener('load', () => {
+
+    // --- MODIFIED: Save Font Button Listener ---
+  // document.getElementById('saveFont').addEventListener('click', saveFont); // Original line
+  document.getElementById('saveFont').addEventListener('click', openSaveModal); // New: Opens the modal
+
+  // --- ADDED: Modal Button Listeners ---
+  modalCancelButton.addEventListener('click', closeSaveModal);
+
+  modalConfirmButton.addEventListener('click', () => {
+    const familyName = fontFamilyNameInput.value.trim();
+    const styleName = fontStyleNameInput.value.trim();
+    if (familyName && styleName) {
+      try {
+        // Call the modified saveFont function with the name
+        const success = saveFont(familyName, styleName); // Pass the name
+        if (success) {
+           console.log(`Font saved with family name: ${familyName}`);
+           console.log(`Font saved with style name: ${styleName}`);
+        }
+      } catch (error) {
+        console.error("Error saving font:", error);
+        alert("Error saving font. Check console for details."); // Optional user feedback
+      } finally {
+         closeSaveModal(); // Close modal regardless of success or error
+      }
+    } else {
+      alert("Please enter valid name."); // Basic validation
+    }
+  });
+
   updateFontDataTextarea(letters);
   fontDataTextarea.addEventListener('input', () => {
     try {
