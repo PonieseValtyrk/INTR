@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/opentype.js@latest/dist/opentype.min.js"></script>
+    <script src="./INTR-PIXEL-CONVERTER/script.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <title>INTR-PIXEL-CONVERTER</title>
+</head>
+
+<body>
+    <div id="container1">
+        <div id="header">
+            <p id="header-text">
+                INTR-PIXEL-CONVERTER
+            </p>
+        </div>
+        <div id="container2">
+            <div id="leftBox">
+                <p id="introduction">INTR-PIXEL-CONVERTER</p>
+                <div id="controlPanel">
+                    <div id="inputBlock">
+                        <label for="font-file">fontFile:</label>
+                        <input type="file" id="font-file" accept=".ttf, .otf">
+                    </div>
+                    <div id="inputBlock">
+                        <label for="char-input">previewGlyph:</label>
+                        <input type="text" id="char-input" maxlength="1" value="A">
+                    </div>
+                    <div id="inputBlock">
+                        <label for="grid-rows">>row:</label>
+                        <input type="number" id="grid-rows" value="8" min="1" max="32" step="1">
+                    </div>
+                    <div id="inputBlock">
+                        <label for="grid-cols">>column:</label>
+                        <input type="number" id="grid-cols" value="8" min="1" max="32" step="1">
+                    </div>
+                    <div id="inputBlock">
+                        <label for="threshold">>threshold:</label>
+                        <input type="number" id="threshold" value="75" min="0" max="100" step="1">
+                    </div>
+                    <div id="inputBlock">
+                        <label for="grid-offset-x">>xOffset:</label>
+                        <input type="number" id="grid-offset-x" value="0" min="-250" max="250" step="1">
+                    </div>
+                    <div id="inputBlock">
+                        <label for="grid-offset-y">>yOffset:</label>
+                        <input type="number" id="grid-offset-y" value="0" min="-250" max="250" step="1">
+                    </div>
+                    <div id="inputBlock">
+                        <label for="grid-render-width">>gridWidth:</label>
+                        <input type="number" id="grid-render-width" value="100" min="10" max="400" step="1">
+                    </div>
+                    <div id="inputBlock">
+                        <label for="grid-render-height">>gridHeight:</label>
+                        <input type="number" id="grid-render-height" value="100" min="10" max="400" step="1">
+                    </div>
+                    <div id="inputBlock">
+                        <label for="font-render-size">>glyphPreviewSize:</label>
+                        <input type="number" id="font-render-size" value="1000" step="10">
+                    </div>
+                    <div id="inputBlock">
+                        <label for="space-width">>blankWidth:</label>
+                        <input type="number" id="space-width" value="3" min="1" max="32">
+                    </div>
+                    <div id="inputBlock">
+                        <label for="trim-columns-checkbox">cropBlank:</label>
+                        <input type="checkbox" id="trim-columns-checkbox" checked>
+                    </div>
+                    <hr>
+                    <label class="sub-label">glyphPreview:</label>
+                    <pre id="single-char-matrix-preview">[ ]</pre>
+                    <label for="chars-to-process">glyphList:</label>
+                    <textarea id="chars-to-process">0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!?;:/\|&#@()[]{}<>*+=-_ `~$%^&</textarea>
+                </div>
+                <div id="buttonContainer">
+                    <button id="generate-all-btn" disabled>>generateFontData<</button>
+                </div>
+            </div>
+            <div id="rightBox">
+                <div class="card canvas-section">
+                    <canvas id="interactive-canvas" width="500" height="400"></canvas>
+                    <div id="canvas-status" class="status-info">加载字体并选择字符...</div>
+                </div>
+            </div>
+            <div id="leftBox">
+            <p id="introduction">
+                GENERATED FONT DATA
+            </p>
+            <div id="controlPanel">
+                <label for="output-matrix">click "generateFontData"</label>
+                <pre id="output-matrix">[ ]</pre>
+            </div>
+            </div>
+        </div>
+        <div id="bottom">
+        <p id="header-text">
+            <a href='https://wangxian.work'>wang xian, 2024</a>
+        </p>
+        </div>
+    </div>
+</body>
+
+</html>

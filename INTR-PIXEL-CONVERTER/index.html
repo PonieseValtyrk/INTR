@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 minimum-scale=1.0">
+    <title>交互式字体网格工具</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Include opentype.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/opentype.js@latest/dist/opentype.min.js"></script>
+</head>
+
+<body>
+    <h1>交互式字体网格工具</h1>
+
+    <div class="container">
+        <!-- 1. Font Loading and Single Character Selection -->
+        <div class="card control-section">
+            <h2>1. 选择字体与字符</h2>
+            <div class="form-group">
+                <label for="font-file">字体文件:</label>
+                <input type="file" id="font-file" accept=".ttf, .otf">
+                <span id="file-name">未选择</span>
+            </div>
+            <div class="form-group">
+                <label for="char-input">交互预览字符:</label>
+                <input type="text" id="char-input" maxlength="1" value="A">
+            </div>
+            <div id="font-info" class="status-info"></div>
+        </div>
+
+        <!-- 2. Shared Grid Parameters -->
+        <div class="card control-section">
+            <h2>2. 网格参数</h2>
+            <div class="form-group slider-group">
+                <label for="grid-rows">行数:</label>
+                <input type="range" id="grid-rows" min="1" max="32" value="8">
+                <span id="rows-value">8</span>
+            </div>
+            <div class="form-group slider-group">
+                <label for="grid-cols">列数:</label>
+                <input type="range" id="grid-cols" min="1" max="32" value="8">
+                <span id="cols-value">8</span>
+            </div>
+            <div class="form-group slider-group">
+                <label for="threshold">阈值:</label>
+                <input type="range" id="threshold" min="0" max="100" value="40">
+                <span id="threshold-value">40%</span>
+            </div>
+            <hr>
+            <p><i>交互式网格定位 (仅用于预览):</i></p>
+            <div class="form-group slider-group">
+                <label for="grid-offset-x">网格 X 偏移:</label>
+                <input type="range" id="grid-offset-x" min="-250" max="250" value="0">
+                <span id="offset-x-value">0px</span>
+            </div>
+            <div class="form-group slider-group">
+                <label for="grid-offset-y">网格 Y 偏移:</label>
+                <input type="range" id="grid-offset-y" min="-200" max="200" value="0">
+                <span id="offset-y-value">0px</span>
+            </div>
+            <div class="form-group slider-group">
+                <label for="grid-render-width">网格宽度:</label>
+                <input type="range" id="grid-render-width" min="10" max="400" value="100">
+                <span id="render-width-value">100px</span>
+            </div>
+            <div class="form-group slider-group">
+                <label for="grid-render-height">网格高度:</label>
+                <input type="range" id="grid-render-height" min="10" max="350" value="100">
+                <span id="render-height-value">100px</span>
+            </div>
+            <div class="form-group">
+                <label for="font-render-size">字体渲染大小:</label>
+                <input type="number" id="font-render-size" value="100" min="10"> px
+            </div>
+            <button id="reset-grid-btn">重置网格定位</button>
+        </div>
+
+        <!-- 3. Interactive Preview Area -->
+        <div class="card canvas-section">
+            <h2>3. 交互区域</h2>
+            <canvas id="interactive-canvas" width="500" height="400"></canvas>
+            <div id="canvas-status" class="status-info">加载字体并选择字符...</div>
+            <label class="sub-label">当前字符矩阵预览:</label>
+            <pre id="single-char-matrix-preview">[ ]</pre>
+        </div>
+
+        <!-- 4. Batch Processing Section -->
+        <div class="card control-section">
+            <h2>4. 批量生成</h2>
+            <div class="form-group">
+                <label for="chars-to-process">要处理的字符列表:</label>
+                <textarea id="chars-to-process"
+                    rows="5">0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!?;:/\|&#@()[]{}<>*+=-_ `~$%^&</textarea>
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox" id="trim-columns-checkbox" checked> 去除矩阵两边空列</label>
+            </div>
+            <div class="form-group">
+                <label for="space-width">定义空格宽度:</label>
+                <input type="number" id="space-width" value="3" min="1" max="32">
+            </div>
+            <button id="generate-all-btn" disabled>加载字体后启用</button>
+            <div id="batch-status" class="status-info"></div>
+        </div>
+
+        <!-- 5. Batch Output -->
+        <div class="card output-section full-width"> <!-- Full width output -->
+            <h2>5. 批量输出 (JSON)</h2>
+            <!-- Using PRE for the main output -->
+            <pre id="output-matrix">[ ]</pre>
+            <button id="copy-matrix-btn">复制结果</button>
+            <div id="copy-status" class="status-info"></div>
+        </div>
+    </div>
+
+    <!-- Hidden Canvas dynamically created in JS -->
+
+    <script src="script.js"></script>
+</body>
+
+</html>

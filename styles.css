@@ -1,0 +1,229 @@
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.vt323-regular {
+  font-family: "VT323", monospace;
+  font-weight: 400;
+  font-style: normal;
+}
+
+#container1 {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+#container2 {
+  display: flex;
+  overflow: auto;
+  flex: 1;
+}
+
+#header {
+  height: 32px;
+  background-color: rgb(0, 51, 255);
+}
+
+#header-text {
+  color: white;
+  text-align: center;
+  margin: 4px;
+  font-size: 150%;
+  font-family:'VT323';
+}
+
+#bottom {
+  height: 32px;
+  background-color: rgb(0, 51, 255);
+}
+
+#rightBox {
+  flex: 1;
+  overflow: scroll;
+}
+
+#leftBox {
+  width: 360px;
+  background-color: rgb(215, 215, 215);
+  display: flex;
+  flex-direction: column;
+}
+
+#introduction {
+  font-family:'VT323';
+  font-size: 200%;
+  line-height: 80%;
+  text-align: center;
+  margin: 30px 5px 10px 5px;
+  color: rgb(0, 51, 255);
+}
+
+#controlPanel {
+  background-color: white;
+  margin: 20px 23px;
+  padding-top: 17px;
+  height: 20vh;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+select {
+    -webkit-appearance: none; /* Chrome, Safari, Edge, Opera */
+    -moz-appearance: none;    /* Firefox */
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: rgb(0, 51, 255);
+    outline: none;
+    font-family: 'VT323';
+    font-size: 16px;
+    padding-right: 24px;
+    padding-left: 10px;
+    flex: 1;
+    box-sizing: border-box;
+    width: 1px;
+    text-align: right;
+  }
+
+  input {
+    border: none;
+    background: transparent;
+    color: rgb(0, 51, 255);
+    outline: none;
+    font-family: 'VT323';
+    font-size: 22px;
+    padding-right: 24px;
+    padding-left: 10px;
+    flex: 1;
+    box-sizing: border-box;
+    width: 1px;
+    text-align: right;
+  }
+
+label {
+  font-family: 'VT323';
+  font-size: 22px;
+  margin-left: 24px;
+  padding-top: 3.7px;
+}
+
+textarea {
+  margin: 5px 27px;
+  border: none;
+  background: transparent;
+  color: rgb(0, 51, 255);
+  outline: none;
+  font-family: 'VT323';
+  font-size: 20px;
+  height: 80px;
+  width: 260px;
+}
+
+pre {
+  margin: 5px 27px;
+  border: none;
+  background: transparent;
+  color: rgb(0, 51, 255);
+  outline: none;
+  font-family: 'VT323';
+  font-size: 20px;
+  height: 80px;
+  width: 260px;
+}
+
+#fontData {
+  margin: 5px 27px;
+  border: none;
+  background: transparent;
+  color: rgb(0, 51, 255);
+  outline: none;
+  font-family: 'VT323';
+  font-size: 20px;
+  height: 90%;;
+  width: 260px;
+}
+
+#output-matrix {
+  margin: 5px 27px;
+  border: none;
+  background: transparent;
+  color: rgb(0, 51, 255);
+  outline: none;
+  font-family: 'VT323';
+  font-size: 20px;
+  height: 90%;;
+  width: 260px;
+}
+
+#inputText {
+  margin: 5px 27px;
+  border: none;
+  background: transparent;
+  color: rgb(0, 51, 255);
+  outline: none;
+  font-family: 'VT323';
+  font-size: 20px;
+  height: 120px;
+  width: 260px;
+}
+
+#inputBlock {
+  display: flex;
+  height: 30px;
+}
+
+input[type='color'] {
+  padding-top: 6px;
+  border: none;
+  height: 23px;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+}
+
+hr {
+  height: 2px;
+  border-top: 2px dashed rgb(0, 51, 255);
+  margin: 10px 20px;
+}
+
+a {
+  color: white;
+}
+
+a:visited {
+  color: white;
+}
+
+#buttonContainer {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#buttonContainer button {
+  border: none;
+  background: transparent;
+  color: rgb(0, 51, 255);
+  font-family: 'VT323';
+  font-size: 22px;
+  display: inline-block;
+  margin: 8px;
+}

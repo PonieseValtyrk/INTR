@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script language="javascript" type="text/javascript" src="libraries/p5.min.js"></script>
+  <script src="https://unpkg.com/p5.js-svg@1.5.1"></script>
+  <script language="javascript" type="module" src="./INTR-PATTERN-SVG/INTR_v3.js" defer></script>
+  <script src="./INTR-PATTERN-SVG/presets.js" type="module" defer></script>
+  <script src="./INTR-PATTERN-SVG/random.js" defer></script>
+  <script type="module" src="./INTR-PATTERN-SVG/controller.js" defer></script>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <title>INTR-PATTERN-SVG</title>
+</head>
+
+<body>
+  <div id="container1">
+    <div id="header">
+      <p id="header-text">
+        BINGO! MAKE TYPEFACE, UNDER THE RULES & LIMITATIONS.
+      </p>
+    </div>
+    <div id="container2">
+      <div id="leftBox">
+
+        <p id="introduction">
+          INTR-PATTERN-SVG
+        </p>
+        <div id="controlPanel">
+          <div>
+            <label for="svgA">svgA:</label>
+            <textarea id="svgA" class="svgText">
+&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"&gt;
+&lt;rect width="20" height="20"/&gt;
+&lt;/svg&gt;
+            </textarea>
+          </div>
+          <div>
+            <label for="svgB">svgB:</label>
+            <textarea id="svgB" class="svgText">
+&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"&gt;
+&lt;polyline points="20 0 20 20 0 20"/&gt;
+&lt;/svg&gt;
+            </textarea>
+          </div>
+          <div>
+            <label for="svgC">svgC:</label>
+            <textarea id="svgC" class="svgText">
+&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"&gt;
+&lt;polyline points="20 20 0 20 0 0"/&gt;
+&lt;/svg&gt;
+            </textarea>
+          </div>
+          <div>
+            <label for="svgD">svgD:</label>
+            <textarea id="svgD" class="svgText">
+&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"&gt;
+&lt;polyline points="0 20 0 0 20 0"/&gt;
+&lt;/svg&gt;
+            </textarea>
+          </div>
+          <div>
+            <label for="svgE">svgE:</label>
+            <textarea id="svgE" class="svgText">
+&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"&gt;
+&lt;polyline points="0 0 20 0 20 20"/&gt;
+&lt;/svg&gt;
+            </textarea>
+          </div>
+          <div>
+            <label for="svgF">svgF:</label>
+            <textarea id="svgF" class="svgText">
+&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"&gt;
+&lt;polyline points="0 0 20 0 20 20"/&gt;
+&lt;/svg&gt;
+            </textarea>
+          </div>
+
+          <div id="inputBlock">
+            <label for="xInterval">>xInterval:</label>
+            <input type="number" id="xInterval" value="10" step="1">
+          </div>
+          <div id="inputBlock">
+            <label for="yInterval">>yInterval:</label>
+            <input type="number" id="yInterval" value="10" step="1">
+          </div>
+          <div id="inputBlock">
+            <label for="Spacing">spacing:</label>
+            <input type="number" id="Spacing" value="1" step="1">
+          </div>
+          <div id="inputBlock">
+            <label for="backgroundColor">backgroundColor:</label>
+            <input type="color" id="backgroundColor" value="#FFFFFF">
+          </div>
+          <div id="inputBlock">
+            <label for="presetSelect">fonts:</label>
+            <select id="presetSelect">
+              <option value="corner">Corner</option>
+              <option value="circle_n_line">CircleNLine</option>
+            </select>
+          </div>
+          <hr>
+          <label for="inputText">inputText:</label>
+          <textarea id="inputText">
+ABCDEFGHIJK
+LMNOPQRSTUV
+WXYZ01234567890</textarea>
+        </div>
+        <div id="buttonContainer">
+          <button id="saveSvg">>saveSvg<</button>
+          <button id="random">>random<</button>
+          <button id="dance">>dance<</button>
+        </div>
+      </div>
+      <div id="rightBox">
+      </div>
+      <div id="leftBox">
+        <p id="introduction">
+          FONT DATA
+        </p>
+        <div id="controlPanel">
+          <label for="fontData">(" "/space is a must have)</label>
+          <textarea id="fontData"></textarea>
+        </div>
+      </div>
+    </div>
+    <div id="bottom">
+      <p id="header-text">
+        <a href='https://wangxian.work'>wang xian, 2024</a>
+      </p>
+    </div>
+  </div>
+
+</body>
+
+</html>
