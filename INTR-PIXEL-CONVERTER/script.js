@@ -9,25 +9,25 @@ const fontFileInput = document.getElementById('font-file');
 const charInput = document.getElementById('char-input');
 // const fontInfoDiv = document.getElementById('font-info');
 
-const gridRowsSlider = document.getElementById('grid-rows');
+// const gridRowsSlider = document.getElementById('grid-rows');
 const rowsValueSpan = document.getElementById('rows-value');
-const gridColsSlider = document.getElementById('grid-cols');
+// const gridColsSlider = document.getElementById('grid-cols');
 const colsValueSpan = document.getElementById('cols-value');
-const thresholdSlider = document.getElementById('threshold');
+// const thresholdSlider = document.getElementById('threshold');
 const thresholdValueSpan = document.getElementById('threshold-value');
 
-const gridOffsetXSlider = document.getElementById('grid-offset-x');
+// const gridOffsetXSlider = document.getElementById('grid-offset-x');
 const offsetXValueSpan = document.getElementById('offset-x-value');
 const trimColumnsCheckbox = document.getElementById('trim-columns-checkbox');
 let shouldTrimColumns = true; // 默认启用去除空列
-const gridOffsetYSlider = document.getElementById('grid-offset-y');
+// const gridOffsetYSlider = document.getElementById('grid-offset-y');
 const offsetYValueSpan = document.getElementById('offset-y-value');
-const gridRenderWidthSlider = document.getElementById('grid-render-width');
+// const gridRenderWidthSlider = document.getElementById('grid-render-width');
 const renderWidthValueSpan = document.getElementById('render-width-value');
-const gridRenderHeightSlider = document.getElementById('grid-render-height');
+// const gridRenderHeightSlider = document.getElementById('grid-render-height');
 const renderHeightValueSpan = document.getElementById('render-height-value');
 const fontRenderSizeInput = document.getElementById('font-render-size');
-const resetGridBtn = document.getElementById('reset-grid-btn');
+// const resetGridBtn = document.getElementById('reset-grid-btn');
 
 const interactiveCanvas = document.getElementById('interactive-canvas');
 const canvasStatusDiv = document.getElementById('canvas-status');
@@ -36,9 +36,9 @@ const iCtx = interactiveCanvas.getContext('2d'); // Interactive Context
 const singleCharMatrixPreviewPre = document.getElementById('single-char-matrix-preview');
 const charsToProcessTextarea = document.getElementById('chars-to-process');
 const generateAllBtn = document.getElementById('generate-all-btn');
-const batchStatusDiv = document.getElementById('batch-status');
+// const batchStatusDiv = document.getElementById('batch-status');
 const outputMatrixPre = document.getElementById('output-matrix'); // Main output PRE
-const copyMatrixBtn = document.getElementById('copy-matrix-btn');
+// const copyMatrixBtn = document.getElementById('copy-matrix-btn');
 const copyStatusDiv = document.getElementById('copy-status');
 
 // Offscreen canvas - create dynamically
@@ -55,14 +55,15 @@ let displayScale = 1;
 let redrawTimeout;
 
 const spaceWidthInput = document.getElementById('space-width');
+console.log(`test"${rowsValueSpan.value}"`)
 let gridParams = {
-    rows: parseInt(gridRowsSlider.value, 10),
-    cols: parseInt(gridColsSlider.value, 10),
-    threshold: parseInt(thresholdSlider.value, 10) / 100,
-    offsetX: parseInt(gridOffsetXSlider.value, 10),
-    offsetY: parseInt(gridOffsetYSlider.value, 10),
-    renderWidth: parseInt(gridRenderWidthSlider.value, 10),
-    renderHeight: parseInt(gridRenderHeightSlider.value, 10),
+    rows: parseInt(rowsValueSpan.value, 10),
+    cols: parseInt(colsValueSpan.value, 10),
+    threshold: parseInt(thresholdValueSpan.value, 10) / 100,
+    offsetX: parseInt(offsetXValueSpan.value, 10),
+    offsetY: parseInt(offsetYValueSpan.value, 10),
+    renderWidth: parseInt(renderWidthValueSpan.value, 10),
+    renderHeight: parseInt(renderHeightValueSpan.value, 10),
     fontRenderSize: parseInt(fontRenderSizeInput.value, 10),
     spaceWidth: parseInt(spaceWidthInput.value, 10)
 };
@@ -91,13 +92,13 @@ const minGridDimension = 10; // Minimum pixels for grid width/height during resi
 fontFileInput.addEventListener('change', handleFontFileSelect);
 charInput.addEventListener('input', handleCharChange);
 
-gridRowsSlider.addEventListener('input', () => updateGridParams('rows', gridRowsSlider.value, rowsValueSpan));
-gridColsSlider.addEventListener('input', () => updateGridParams('cols', gridColsSlider.value, colsValueSpan));
-thresholdSlider.addEventListener('input', () => updateGridParams('threshold', thresholdSlider.value, thresholdValueSpan, '%'));
-gridOffsetXSlider.addEventListener('input', () => updateGridParams('offsetX', gridOffsetXSlider.value, offsetXValueSpan, 'px'));
-gridOffsetYSlider.addEventListener('input', () => updateGridParams('offsetY', gridOffsetYSlider.value, offsetYValueSpan, 'px'));
-gridRenderWidthSlider.addEventListener('input', () => updateGridParams('renderWidth', gridRenderWidthSlider.value, renderWidthValueSpan, 'px'));
-gridRenderHeightSlider.addEventListener('input', () => updateGridParams('renderHeight', gridRenderHeightSlider.value, renderHeightValueSpan, 'px'));
+rowsValueSpan.addEventListener('input', () => updateGridParams('rows', rowsValueSpan.value));
+colsValueSpan.addEventListener('input', () => updateGridParams('cols', colsValueSpan.value));
+thresholdValueSpan.addEventListener('input', () => updateGridParams('threshold', thresholdValueSpan.value));
+offsetXValueSpan.addEventListener('input', () => updateGridParams('offsetX', offsetXValueSpan.value));
+offsetYValueSpan.addEventListener('input', () => updateGridParams('offsetY', offsetYValueSpan.value));
+renderWidthValueSpan.addEventListener('input', () => updateGridParams('renderWidth', renderWidthValueSpan.value));
+renderHeightValueSpan.addEventListener('input', () => updateGridParams('renderHeight', renderHeightValueSpan.value));
 fontRenderSizeInput.addEventListener('input', () => {
     const newSize = parseInt(fontRenderSizeInput.value, 10);
     if (newSize > 0 && newSize !== gridParams.fontRenderSize) {
@@ -107,8 +108,8 @@ fontRenderSizeInput.addEventListener('input', () => {
     }
 });
 
-resetGridBtn.addEventListener('click', resetGridPosition);
-copyMatrixBtn.addEventListener('click', copyMatrix);
+// resetGridBtn.addEventListener('click', resetGridPosition);
+// copyMatrixBtn.addEventListener('click', copyMatrix);
 generateAllBtn.addEventListener('click', handleGenerateAllClick);
 
 interactiveCanvas.addEventListener('mousedown', handleMouseDown);
@@ -123,7 +124,7 @@ window.addEventListener('resize', () => {
 
 // --- 初始化 ---
 // 应用程序启动时的初始化操作
-updateAllSliderDisplays();
+// updateAllSliderDisplays();
 setupCanvasScaling();
 checkOpentypeLoaded();
 
@@ -209,13 +210,13 @@ function handleFontFileSelect(event) {
             });
 
             gridParams.renderWidth = (maxWidth / loadedFont.unitsPerEm) * gridParams.fontRenderSize;
-            let glyphHeight = Math.abs(loadedFont.ascender) + Math.abs(loadedFont.descender) * gridParams.fontRenderSize / loadedFont.unitsPerEm;
+            let glyphHeight = (Math.abs(loadedFont.ascender) + Math.abs(loadedFont.descender)) * gridParams.fontRenderSize / loadedFont.unitsPerEm;
             console.log(glyphHeight);
             gridParams.renderHeight = glyphHeight;
-            gridRenderWidthSlider.value = gridParams.renderWidth;
-            renderWidthValueSpan.innerText = `${gridParams.renderWidth}px`;
-            gridRenderHeightSlider.value = gridParams.renderHeight;
-            renderHeightValueSpan.innerText = `${gridParams.renderHeight}px`;
+            // gridRenderWidthSlider.value = gridParams.renderWidth;
+            renderWidthValueSpan.value = gridParams.renderWidth;
+            // gridRenderHeightSlider.value = gridParams.renderHeight;
+            renderHeightValueSpan.value = gridParams.renderHeight;
         } catch (err) {
             console.error("Font parsing error:", err);
             loadedFont = null;
@@ -270,15 +271,11 @@ function handleCharChange(event) {
  * @param {string} [unit=''] - 参数单位
  * 更新网格参数并触发UI更新
  */
-function updateGridParams(param, value, spanElement, unit = '') {
+function updateGridParams(param, value) {
     const parsedValue = (param === 'threshold') ? parseFloat(value) / 100 : parseInt(value, 10);
     if (isNaN(parsedValue) || gridParams[param] === parsedValue) return;
 
     gridParams[param] = parsedValue;
-
-    if (spanElement) {
-        spanElement.textContent = `${value}${unit}`;
-    }
 
     if (['rows', 'cols', 'threshold', 'offsetX', 'offsetY', 'renderWidth', 'renderHeight'].includes(param)) {
         requestRedraw(`参数调整: ${param}`);
@@ -290,26 +287,26 @@ function updateGridParams(param, value, spanElement, unit = '') {
  * 确保UI控件值与当前网格参数一致
  */
 function syncSlidersToGridParams() {
-    if (+gridRowsSlider.value !== gridParams.rows) gridRowsSlider.value = gridParams.rows;
+    // if (+gridRowsSlider.value !== gridParams.rows) gridRowsSlider.value = gridParams.rows;
     rowsValueSpan.textContent = gridParams.rows;
 
-    if (+gridColsSlider.value !== gridParams.cols) gridColsSlider.value = gridParams.cols;
+    // if (+gridColsSlider.value !== gridParams.cols) gridColsSlider.value = gridParams.cols;
     colsValueSpan.textContent = gridParams.cols;
 
     const thresholdVal = Math.round(gridParams.threshold * 100);
-    if (+thresholdSlider.value !== thresholdVal) thresholdSlider.value = thresholdVal;
+    // if (+thresholdSlider.value !== thresholdVal) thresholdSlider.value = thresholdVal;
     thresholdValueSpan.textContent = `${thresholdVal}%`;
 
-    if (+gridOffsetXSlider.value !== gridParams.offsetX) gridOffsetXSlider.value = gridParams.offsetX;
+    // if (+gridOffsetXSlider.value !== gridParams.offsetX) gridOffsetXSlider.value = gridParams.offsetX;
     offsetXValueSpan.textContent = `${gridParams.offsetX}px`;
 
-    if (+gridOffsetYSlider.value !== gridParams.offsetY) gridOffsetYSlider.value = gridParams.offsetY;
+    // if (+gridOffsetYSlider.value !== gridParams.offsetY) gridOffsetYSlider.value = gridParams.offsetY;
     offsetYValueSpan.textContent = `${gridParams.offsetY}px`;
 
-    if (+gridRenderWidthSlider.value !== gridParams.renderWidth) gridRenderWidthSlider.value = gridParams.renderWidth;
+    // if (+gridRenderWidthSlider.value !== gridParams.renderWidth) gridRenderWidthSlider.value = gridParams.renderWidth;
     renderWidthValueSpan.textContent = `${gridParams.renderWidth}px`;
 
-    if (+gridRenderHeightSlider.value !== gridParams.renderHeight) gridRenderHeightSlider.value = gridParams.renderHeight;
+    // if (+gridRenderHeightSlider.value !== gridParams.renderHeight) gridRenderHeightSlider.value = gridParams.renderHeight;
     renderHeightValueSpan.textContent = `${gridParams.renderHeight}px`;
 
     if (+fontRenderSizeInput.value !== gridParams.fontRenderSize) fontRenderSizeInput.value = gridParams.fontRenderSize;
@@ -319,15 +316,15 @@ function syncSlidersToGridParams() {
  * 更新所有滑块显示值
  * 初始化时设置滑块值的文本显示
  */
-function updateAllSliderDisplays() {
-    rowsValueSpan.textContent = gridRowsSlider.value;
-    colsValueSpan.textContent = gridColsSlider.value;
-    thresholdValueSpan.textContent = thresholdSlider.value + '%';
-    offsetXValueSpan.textContent = gridOffsetXSlider.value + 'px';
-    offsetYValueSpan.textContent = gridOffsetYSlider.value + 'px';
-    renderWidthValueSpan.textContent = gridRenderWidthSlider.value + 'px';
-    renderHeightValueSpan.textContent = gridRenderHeightSlider.value + 'px';
-}
+// function updateAllSliderDisplays() {
+//     rowsValueSpan.textContent = gridRowsSlider.value;
+//     colsValueSpan.textContent = gridColsSlider.value;
+//     thresholdValueSpan.textContent = thresholdSlider.value + '%';
+//     offsetXValueSpan.textContent = gridOffsetXSlider.value + 'px';
+//     offsetYValueSpan.textContent = gridOffsetYSlider.value + 'px';
+//     renderWidthValueSpan.textContent = gridRenderWidthSlider.value + 'px';
+//     renderHeightValueSpan.textContent = gridRenderHeightSlider.value + 'px';
+// }
 
 /**
  * 重置网格位置和大小
@@ -621,7 +618,7 @@ function renderCharacterToCache(character, fontSize) {
     descent = Math.ceil(Math.abs(loadedFont.descender) * scale); // Ensure descender is non-negative for height calc
     glyphHeight = Math.max(1, baseline + descent); // Max height from baseline to top + baseline to bottom
     glyphAdvanceWidth = Math.max(1, glyph.advanceWidth * scale); // Use advanceWidth for layout
-    // fontInfoDiv.innerText = `${fontFileInput.innerText}
+    // fontInfoDiv.value = `${fontFileInput.value}
     // baseline: ${baseline}
     // descent: ${descent}
     // `
@@ -888,7 +885,7 @@ async function handleGenerateAllClick() {
     setBatchStatus(`准备处理 ${uniqueChars.length} 个字符 (使用交互网格)...`);
     generateAllBtn.disabled = true;
     outputMatrixPre.textContent = "处理中...";
-    copyMatrixBtn.disabled = true;
+    // copyMatrixBtn.disabled = true;
 
     const allCharMatrices = {};
     let processedCount = 0;
@@ -977,7 +974,7 @@ async function handleGenerateAllClick() {
 
         const duration = ((Date.now() - startTime) / 1000).toFixed(1);
         setBatchStatus(`✓ 处理完成 ${processedCount} 个字符 (${duration} 秒)`, "success");
-        copyMatrixBtn.disabled = false;
+        // copyMatrixBtn.disabled = false;
     } catch (e) {
         console.error("Error stringifying batch output:", e);
         outputMatrixPre.textContent = "错误：无法生成最终 JSON 输出。";
@@ -1076,8 +1073,8 @@ function setCanvasStatus(message, type = 'info') {
  * @param {string} [type='info'] - 消息类型(info/warn/error)
  */
 function setBatchStatus(message, type = 'info') {
-    batchStatusDiv.textContent = message;
-    batchStatusDiv.className = `status-info ${type}`;
+    // batchStatusDiv.textContent = message;
+    // batchStatusDiv.className = `status-info ${type}`;
 }
 /**
  * 设置复制状态信息
