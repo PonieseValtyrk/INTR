@@ -5,9 +5,9 @@
 // --- DOM元素 ---
 // 获取页面上的DOM元素引用
 const fontFileInput = document.getElementById('font-file');
-const fileNameSpan = document.getElementById('file-name');
+// const fileNameSpan = document.getElementById('file-name');
 const charInput = document.getElementById('char-input');
-const fontInfoDiv = document.getElementById('font-info');
+// const fontInfoDiv = document.getElementById('font-info');
 
 const gridRowsSlider = document.getElementById('grid-rows');
 const rowsValueSpan = document.getElementById('rows-value');
@@ -174,8 +174,8 @@ function handleFontFileSelect(event) {
     generateAllBtn.disabled = true;
     if (!file) {
         loadedFont = null;
-        fileNameSpan.textContent = '未选择';
-        fontInfoDiv.textContent = '';
+        // fileNameSpan.textContent = '未选择';
+        // fontInfoDiv.textContent = '';
         setCanvasStatus('请选择字体文件');
         clearInteractiveCanvas();
         return;
@@ -185,14 +185,14 @@ function handleFontFileSelect(event) {
     reader.onload = (e) => {
         try {
             loadedFont = opentype.parse(e.target.result);
-            fileNameSpan.textContent = file.name;
+            // fileNameSpan.textContent = file.name;
             let fontName = 'N/A';
             if (loadedFont.names.fontFamily && loadedFont.names.fontFamily.en) {
                 fontName = loadedFont.names.fontFamily.en;
             } else if (Object.values(loadedFont.names.fontFamily || {}).length > 0) {
                 fontName = Object.values(loadedFont.names.fontFamily)[0];
             }
-            fontInfoDiv.textContent = `字体: ${fontName}, Units/Em: ${loadedFont.unitsPerEm}`;
+            // fontInfoDiv.textContent = `字体: ${fontName}, Units/Em: ${loadedFont.unitsPerEm}`;
             charImageData = null;
             setCanvasStatus('字体已加载。', 'success');
             generateAllBtn.disabled = false;
@@ -219,8 +219,8 @@ function handleFontFileSelect(event) {
         } catch (err) {
             console.error("Font parsing error:", err);
             loadedFont = null;
-            fileNameSpan.textContent = '加载失败';
-            fontInfoDiv.textContent = '';
+            // fileNameSpan.textContent = '加载失败';
+            // fontInfoDiv.textContent = '';
             setCanvasStatus(`字体解析失败: ${err.message}`, 'error');
             clearInteractiveCanvas();
         }
@@ -228,8 +228,8 @@ function handleFontFileSelect(event) {
     reader.onerror = () => {
         console.error("File reading error");
         loadedFont = null;
-        fileNameSpan.textContent = '读取失败';
-        fontInfoDiv.textContent = '';
+        // fileNameSpan.textContent = '读取失败';
+        // fontInfoDiv.textContent = '';
         setCanvasStatus('文件读取错误。', 'error');
         clearInteractiveCanvas();
     };
@@ -406,6 +406,7 @@ function getInteractionMode(mouseX, mouseY) {
 /**
  * 处理鼠标按下事件
  * @param {MouseEvent} event - 鼠标事件对象Width
+ * */
 function handleMouseDown(event) {
     if (event.button !== 0) return;
     const mousePos = getMousePos(interactiveCanvas, event);
@@ -579,6 +580,7 @@ function getResizeCursor(mode) {
  * 使用防抖技术优化性能
  */
 function requestRedraw(reason = 'unknown') {
+    console.log(reason);
     clearTimeout(redrawTimeout);
     redrawTimeout = setTimeout(() => {
         drawInteractive();
@@ -619,10 +621,10 @@ function renderCharacterToCache(character, fontSize) {
     descent = Math.ceil(Math.abs(loadedFont.descender) * scale); // Ensure descender is non-negative for height calc
     glyphHeight = Math.max(1, baseline + descent); // Max height from baseline to top + baseline to bottom
     glyphAdvanceWidth = Math.max(1, glyph.advanceWidth * scale); // Use advanceWidth for layout
-    fontInfoDiv.innerText = `${fontFileInput.innerText}
-    baseline: ${baseline}
-    descent: ${descent}
-    `
+    // fontInfoDiv.innerText = `${fontFileInput.innerText}
+    // baseline: ${baseline}
+    // descent: ${descent}
+    // `
 
     // Center position for drawing
     const drawX = 0;
@@ -686,7 +688,8 @@ function drawInteractive() {
 
     // 2. 清空画布并设置背景
     // 使用CSS定义的背景色或默认浅灰色
-    iCtx.fillStyle = getComputedStyle(interactiveCanvas).backgroundColor || '#f0f0f0';
+    iCtx.fillStyle = /*getComputedStyle(interactiveCanvas).backgroundColor || */'#f0f0f0';
+    console.log(getComputedStyle(interactiveCanvas).backgroundColor);
     iCtx.fillRect(0, 0, logicalWidth, logicalHeight);
 
     // 3. 检查字符渲染状态
